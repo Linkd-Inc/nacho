@@ -1,0 +1,231 @@
+$numbers: (
+  1: 8.333,
+  2: 16.667,
+  3: 25,
+  4: 33.333,
+  5: 41.667,
+  6: 50,
+  7: 58.333,
+  8: 66.667,
+  9: 75,
+  10: 83.333,
+  11: 91.667,
+  12: 100,
+);
+
+$to-subtract: 0.9375em !default;
+$breakpoints: (
+  xsmall: 0em,
+  small: 48em,
+  medium: 62em,
+  large: 75em,
+);
+
+$xsmall-range: (0, (map-get($breakpoints, small) - 1) + $to-subtract) !default;
+$small-range: (map-get($breakpoints, small), (map-get($breakpoints, medium) - 1) + $to-subtract) !default;
+$medium-range: (map-get($breakpoints, medium), (map-get($breakpoints, large) - 1) + $to-subtract) !default;
+
+// TODO: Turn into a for loop generating these kinds of things?
+$screen: "only screen" !default;
+$xsmall-only: "#{$screen} and (min-width:#{nth($xsmall-range, 1)}) and (max-width:#{nth($xsmall-range, 2)})" !default;
+$xsmall-up: $screen !default;
+$small-only: "#{$screen} and (min-width:#{nth($small-range, 1)}) and (max-width:#{nth($small-range, 2)})" !default;
+$small-up: "#{$screen} and (min-width:#{nth($small-range, 1)})" !default;
+$small-down: "#{$screen} and (max-width:#{nth($small-range, 2)})" !default;
+$medium-only: "#{$screen} and (min-width:#{nth($medium-range, 1)}) and (max-width:#{nth($medium-range, 2)})" !default;
+$medium-up: "#{$screen} and (min-width:#{nth($medium-range, 1)})" !default;
+$medium-down: "#{$screen} and (max-width:#{nth($medium-range, 2)})" !default;
+$large-only: "#{$screen} and (min-width:#{map-get($breakpoints, large)})" !default;
+$large-up: "#{$screen} and (min-width:#{map-get($breakpoints, large)})" !default;
+$large-down: "#{$screen} and (max-width:#{map-get($breakpoints, large)})" !default;
+
+@mixin basis {
+  box-sizing: border-box;
+  display: flex;
+  flex: 0 1 auto;
+  flex-wrap: wrap;
+}
+
+@mixin row {
+  @include basis();
+  flex-direction: row;
+}
+
+@mixin col {
+  @include basis();
+  flex-direction: column;
+}
+
+@mixin col-size-num {
+  box-sizing: border-box;
+  flex: 0 0 auto;
+  padding-right: 1rem;
+  padding-left: 1rem;
+}
+
+@mixin col-siz {
+  flex-grow: 1;
+  flex-basis: 0;
+  max-width: 100%;
+}
+
+// TODO: Turn this into a for loop with lookup table of kinds. This will allow everything to be made much smaller
+@mixin col-size($number) {
+  flex-basis: map-get($numbers, $number) + 0%;
+  max-width: map-get($numbers, $number) + 0%;
+}
+
+@mixin col-size-offset($number) {
+  margin-left: map-get($numbers, $number) + 0%;
+}
+
+@mixin start-size {
+  justify-content: flex-start;
+  text-align: start;
+}
+
+@mixin center-size {
+  justify-content: center;
+  text-align: center;
+}
+
+@mixin end-size {
+  justify-content: flex-end;
+  text-align: end;
+  @media screen and (min-width:0\0){
+    text-align: right;
+  }
+}
+
+@mixin top-size {
+  align-items: flex-start;
+}
+
+@mixin middle-size {
+  align-items: center;
+}
+
+@mixin bottom-size {
+  align-items: flex-end;
+}
+
+@mixin around-size {
+  justify-content: space-around;
+}
+
+@mixin between-size {
+  justify-content: space-between;
+}
+
+@mixin align-top-size {
+  align-content: flex-start;
+}
+
+@mixin align-bottom-size {
+  align-content: flex-end;
+}
+
+@mixin align-center-size {
+  align-content: center;
+}
+
+@mixin align-around-size {
+  align-content: space-around;
+}
+
+@mixin align-between-size {
+  align-content: space-between;
+}
+
+@mixin first-size {
+  order: -1;
+}
+
+@mixin last-size {
+  order: 1;
+}
+
+@mixin no-wrap($important:null) {
+  flex-wrap: nowrap $important;
+}
+
+@mixin wrap($important:null) {
+  flex-wrap: wrap $important;
+}
+
+@mixin dont-show($important:null) {
+  display: none $important;
+}
+
+@mixin show($important:null) {
+  display: block $important;
+}
+
+// The following are to help you create your own rules using the sizing above
+@mixin do-for-xsmall-only {
+  @media #{$xsmall-only} {
+    @content;
+  }
+}
+
+@mixin do-for-small-only {
+  @media #{$small-only} {
+    @content;
+  }
+}
+
+@mixin do-for-small-up {
+  @media #{$small-up} {
+    @content;
+  }
+}
+
+@mixin do-for-small {
+  @media #{$small-down} {
+    @content;
+  }
+}
+
+@mixin do-for-medium-only {
+  @media #{$medium-only} {
+    @content;
+  }
+}
+
+@mixin do-for-medium-up {
+  @media #{$medium-up} {
+    @content;
+  }
+}
+
+@mixin do-for-medium {
+  @media #{$medium-down} {
+    @content;
+  }
+}
+
+@mixin do-for-large-only {
+  @media #{$large-only} {
+    @content;
+  }
+}
+
+@mixin do-for-large-up {
+  @media #{$large-up} {
+    @content;
+  }
+}
+
+@mixin do-for-large {
+  @media #{$large-down} {
+    @content;
+  }
+}
+
+
+// Needed for math stuff in flexstrap. Thanks SO
+// http://stackoverflow.com/questions/12328259/how-do-you-strip-the-unit-from-any-number-in-sass/12335841#12335841
+
+@function strip-units($number) {
+  @return $number / ($number * 0 + 1);
+}
