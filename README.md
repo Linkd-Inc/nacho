@@ -1,7 +1,7 @@
 # Nacho - A minimal, highly customizable flexbox framework
 
 [![npm version](https://badge.fury.io/js/nacho.svg)](https://badge.fury.io/js/nacho)
-[![Build Status](https://travis-ci.org/WireFlare/nacho.svg?branch=master)](https://travis-ci.org/WireFlare/nacho)
+[![Build Status](https://travis-ci.org/Linkd-Inc/nacho.svg?branch=master)](https://travis-ci.org/Linkd-Inc/nacho)
 
 
 ## Installation
